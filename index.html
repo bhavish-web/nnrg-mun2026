@@ -1281,26 +1281,337 @@
             color: var(--primary-navy);
         }
 
+        .registration .section-header {
+            margin-bottom: 60px;
+        }
+
         .registration-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
+        /* Delegation Type Selector */
+        .delegation-selector {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .delegation-btn {
+            position: relative;
+            padding: 25px 50px;
+            border: 3px solid var(--primary-navy);
+            background: transparent;
+            color: var(--primary-navy);
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            min-width: 280px;
+        }
+
+        .delegation-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-navy);
+            border-radius: 12px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: -1;
+        }
+
+        .delegation-btn:hover::before,
+        .delegation-btn.active::before {
+            transform: scaleX(1);
+        }
+
+        .delegation-btn:hover,
+        .delegation-btn.active {
+            color: var(--gold-light);
+        }
+
+        .delegation-btn .fee {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        .delegation-btn .fee-amount {
+            font-size: 28px;
+            font-weight: 900;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Registration Form Wrapper */
         .registration-form-wrapper {
             background: var(--primary-navy);
             border-radius: 20px;
-            padding: 30px;
+            padding: 50px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
         }
 
-        .form-iframe {
-            width: 100%;
-            height: 1200px;
+        /* Form Styling */
+        .registration-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-header {
+            margin-bottom: 10px;
+        }
+
+        .form-header h3 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: var(--light-gray);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group label .required {
+            color: var(--gold-light);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 18px 20px;
+            border: 2px solid rgba(230, 198, 112, 0.2);
+            background: rgba(0, 40, 85, 0.5);
+            border-radius: 10px;
+            font-size: 16px;
+            color: var(--cream);
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: var(--light-gray);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--gold-light);
+            box-shadow: 0 0 20px rgba(230, 198, 112, 0.2);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E6C670' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+        }
+
+        .form-group select option {
+            background: var(--primary-navy);
+            color: var(--cream);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn-submit {
+            margin-top: 10px;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-light));
+            color: var(--primary-navy);
             border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(230, 198, 112, 0.4);
+        }
+
+        /* Payment Section */
+        .payment-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 40, 85, 0.3);
             border-radius: 15px;
-            background: var(--secondary-navy);
+            border: 1px solid rgba(230, 198, 112, 0.2);
+        }
+
+        .payment-header h3 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        .payment-header p {
+            font-size: 14px;
+            color: var(--light-gray);
+            margin-bottom: 30px;
+        }
+
+        .payment-amount {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(180deg, var(--gold-light), var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        .qr-code-container {
+            width: 220px;
+            height: 220px;
+            background: var(--pure-white);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-code-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--light-gray);
+            border-radius: 10px;
+            color: var(--primary-navy);
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-placeholder span {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .payment-info {
+            font-size: 13px;
+            color: var(--light-gray);
+            line-height: 1.8;
+        }
+
+        .payment-info strong {
+            color: var(--gold-light);
+        }
+
+        .payment-note {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: rgba(230, 198, 112, 0.1);
+            border: 1px solid rgba(230, 198, 112, 0.3);
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--cream);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+
+        .success-message h3 {
+            font-family: var(--font-display);
+            font-size: 36px;
+            color: var(--gold-light);
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            font-size: 16px;
+            color: var(--light-gray);
+            line-height: 1.8;
         }
 
         /* ===== FOOTER ===== */
@@ -1442,6 +1753,20 @@
                 width: 350px;
                 height: 350px;
             }
+
+            .registration-form-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .delegation-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .delegation-btn {
+                width: 100%;
+                max-width: 350px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1540,6 +1865,32 @@
                 width: 280px;
                 height: 280px;
             }
+
+            .registration-form-wrapper {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .delegation-btn {
+                padding: 20px 30px;
+                min-width: unset;
+            }
+
+            .delegation-btn .fee-amount {
+                font-size: 24px;
+            }
+
+            .payment-amount {
+                font-size: 36px;
+            }
+
+            .qr-code-container {
+                width: 180px;
+                height: 180px;
+            }
         }
 
         /* ===== ANIMATION CLASSES ===== */
@@ -1611,7 +1962,6 @@
         <div class="nav-container">
             <div class="logo">
                 <div class="logo-emblem">
-                    <!-- Image Replacement for Navbar Logo -->
                     <img src="nnrg-logo.jpg" alt="NNRG MUN Logo">
                 </div>
                 <span class="logo-text">NNRG MUN 2026</span>
@@ -1631,9 +1981,7 @@
         <div class="hero-bg">
             <div class="grid-lines"></div>
             <div class="particles" id="particles"></div>
-            <!-- NNRG MUN Watermark -->
             <div class="mun-watermark">
-                <!-- Image Replacement for Background Watermark -->
                 <img src="nnrg-logo.jpg" alt="">
             </div>
         </div>
@@ -1801,7 +2149,6 @@
                 <div class="committee-card-inner">
                     <div class="committee-front">
                         <div class="committee-emblem">
-                            <!-- Image Replacement for DISEC -->
                             <img src="disec-logo.jpg" alt="DISEC Emblem">
                         </div>
                         <h3 class="committee-name">DISEC</h3>
@@ -1821,7 +2168,6 @@
                 <div class="committee-card-inner">
                     <div class="committee-front">
                         <div class="committee-emblem">
-                            <!-- Image Replacement for AIPPM -->
                             <img src="aippm-logo.jpg" alt="AIPPM Emblem">
                         </div>
                         <h3 class="committee-name">AIPPM</h3>
@@ -1841,7 +2187,6 @@
                 <div class="committee-card-inner">
                     <div class="committee-front">
                         <div class="committee-emblem">
-                            <!-- Image Replacement for TLA -->
                             <img src="tla-logo.jpg" alt="TLA Emblem">
                         </div>
                         <h3 class="committee-name">TLA</h3>
@@ -1861,7 +2206,6 @@
                 <div class="committee-card-inner">
                     <div class="committee-front">
                         <div class="committee-emblem">
-                            <!-- Image Replacement for UNHRC -->
                             <img src="unhrc-logo.jpg" alt="UNHRC Emblem">
                         </div>
                         <h3 class="committee-name">UNHRC</h3>
@@ -1944,14 +2288,105 @@
             <h2 class="section-title reveal">Secure Your<br>Seat Today</h2>
         </div>
 
+        <!-- Delegation Type Selector -->
+        <div class="delegation-selector reveal">
+            <button class="delegation-btn active" id="internalBtn" onclick="selectDelegation('internal')">
+                Internal Delegation
+                <span class="fee">Registration Fee</span>
+                <span class="fee-amount">₹200</span>
+            </button>
+            <button class="delegation-btn" id="externalBtn" onclick="selectDelegation('external')">
+                External Delegation
+                <span class="fee">Registration Fee</span>
+                <span class="fee-amount">₹600</span>
+            </button>
+        </div>
+
         <div class="registration-container reveal">
             <div class="registration-form-wrapper">
-                <iframe 
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSd3Arl5KFEe5Fa2uGCcaTdFhIJbimoZ55gplGyJKJWhcSnBVQ/viewform?embedded=true" 
-                    class="form-iframe"
-                    id="registrationForm">
-                    Loading form...
-                </iframe>
+                <!-- Registration Form -->
+                <div class="registration-form" id="registrationForm">
+                    <div class="form-header">
+                        <h3 id="formTitle">Internal Delegation Registration</h3>
+                        <p>Please fill in all the required details to complete your registration</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" placeholder="your.email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>College/Institution Name <span class="required">*</span></label>
+                        <input type="text" id="college" placeholder="Enter your college name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Committee <span class="required">*</span></label>
+                        <select id="committee" required>
+                            <option value="">Select your preferred committee</option>
+                            <option value="DISEC">DISEC - Disarmament and International Security Committee</option>
+                            <option value="AIPPM">AIPPM - All India Political Parties Meet</option>
+                            <option value="TLA">TLA - Telangana Legislative Assembly</option>
+                            <option value="UNHRC">UNHRC - United Nations Human Rights Council</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Transaction ID <span class="required">*</span></label>
+                        <input type="text" id="transactionId" placeholder="Enter your payment transaction ID" required>
+                    </div>
+
+                    <button type="button" class="btn-submit" onclick="submitForm()">
+                        Submit Registration →
+                    </button>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <div class="payment-header">
+                        <h3>Payment Details</h3>
+                        <p>Scan the QR code to complete payment</p>
+                    </div>
+
+                    <div class="payment-amount" id="paymentAmount">₹200</div>
+
+                    <div class="qr-code-container">
+                        <!-- Replace this with your actual QR code image -->
+                        <img src="payment-qr.jpg" alt="Payment QR Code" id="qrImage" onerror="this.style.display='none'; document.getElementById('qrPlaceholder').style.display='flex';">
+                        <div class="qr-placeholder" id="qrPlaceholder" style="display: none;">
+                            <span>📱</span>
+                            <p>QR Code<br>Coming Soon</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-info">
+                        <p><strong>UPI ID:</strong> munnnrg@upi</p>
+                        <p><strong>Account Name:</strong> NNRG MUN 2026</p>
+                    </div>
+
+                    <div class="payment-note">
+                        ⚠️ Please save the transaction ID after payment and enter it in the form to complete registration.
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">✓</div>
+                    <h3>Registration Successful!</h3>
+                    <p>Thank you for registering for NNRG MUN 2026. A confirmation email will be sent to your registered email address shortly. We look forward to seeing you at the conference!</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1977,7 +2412,7 @@
                 <ul class="footer-links">
                     <li><a href="https://www.instagram.com/nnrgmun?igsh=MXExMHhpNXExODd5Ng==" target="_blank">Instagram</a></li>
                     <li><a href="https://www.linkedin.com/in/mun-nnrg-b161a73ab" target="_blank">LinkedIn</a></li>
-                    <li><a href="https://www.munnnrg@gmail.com">Email Us</a></li>
+                    <li><a href="mailto:munnnrg@gmail.com">Email Us</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -2150,6 +2585,97 @@
         }, { threshold: 0.5 });
 
         counters.forEach(counter => counterObserver.observe(counter));
+
+        // ===== DELEGATION SELECTION =====
+        let selectedDelegation = 'internal';
+
+        function selectDelegation(type) {
+            selectedDelegation = type;
+            const internalBtn = document.getElementById('internalBtn');
+            const externalBtn = document.getElementById('externalBtn');
+            const formTitle = document.getElementById('formTitle');
+            const paymentAmount = document.getElementById('paymentAmount');
+
+            if (type === 'internal') {
+                internalBtn.classList.add('active');
+                externalBtn.classList.remove('active');
+                formTitle.textContent = 'Internal Delegation Registration';
+                paymentAmount.textContent = '₹200';
+            } else {
+                externalBtn.classList.add('active');
+                internalBtn.classList.remove('active');
+                formTitle.textContent = 'External Delegation Registration';
+                paymentAmount.textContent = '₹600';
+            }
+        }
+
+        // ===== FORM SUBMISSION =====
+        function submitForm() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const college = document.getElementById('college').value;
+            const committee = document.getElementById('committee').value;
+            const transactionId = document.getElementById('transactionId').value;
+
+            // Basic validation
+            if (!fullName || !email || !phone || !college || !committee || !transactionId) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Phone validation (basic)
+            const phoneRegex = /^[\d\s\+\-]{10,15}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid phone number.');
+                return;
+            }
+
+            // Prepare form data
+            const formData = {
+                delegationType: selectedDelegation,
+                fullName: fullName,
+                email: email,
+                phone: phone,
+                college: college,
+                committee: committee,
+                transactionId: transactionId,
+                fee: selectedDelegation === 'internal' ? 200 : 600
+            };
+
+            console.log('Form submitted:', formData);
+
+            // Show success message
+            document.getElementById('registrationForm').style.display = 'none';
+            document.querySelector('.payment-section').style.display = 'none';
+            document.getElementById('successMessage').classList.add('show');
+
+            // You can add your form submission logic here (e.g., send to backend/Google Sheets)
+            // Example: Send to Google Sheets via Google Apps Script
+            /*
+            fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+            */
+        }
     </script>
 </body>
 </html>
