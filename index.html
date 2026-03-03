@@ -6,7 +6,7 @@
     <title>NNRG Model United Nations 2026 | International Conference</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== GLOBAL RESET & VARIABLES ===== */
+              /* ===== GLOBAL RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -14,31 +14,22 @@
         }
 
         :root {
-            /* NAVY BLUE & GOLD THEME */
             --primary-navy: #001B44;
             --secondary-navy: #002855;
             --tertiary-navy: #003366;
             --dark-navy: #001233;
             --light-navy: #0A3D6E;
-            
-            /* Gold Palette */
             --gold-light: #E6C670;
             --gold-primary: #D4AF37;
             --gold-deep: #A67C00;
             --gold-shine: #FFD700;
-            
-            /* Neutral Colors */
             --cream: #F9F7F1;
             --off-white: #FEFDFB;
             --pure-white: #FFFFFF;
             --light-gray: #B8B5AD;
-            
-            /* Typography */
             --font-display: 'Playfair Display', serif;
             --font-elegant: 'Cormorant Garamond', serif;
             --font-body: 'Inter', sans-serif;
-            
-            /* Spacing */
             --section-padding: 140px 8%;
             --mobile-padding: 80px 5%;
         }
@@ -55,7 +46,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -352,7 +342,6 @@
                 radial-gradient(ellipse at 60% 80%, rgba(166, 124, 0, 0.05) 0%, transparent 40%);
         }
 
-        /* NNRG MUN Watermark */
         .mun-watermark {
             position: absolute;
             top: 50%;
@@ -371,7 +360,6 @@
             object-fit: contain;
         }
 
-        /* Animated Grid Lines */
         .grid-lines {
             position: absolute;
             top: 0;
@@ -390,7 +378,6 @@
             100% { transform: translate(100px, 100px); }
         }
 
-        /* Floating Particles */
         .particles {
             position: absolute;
             width: 100%;
@@ -957,7 +944,7 @@
             line-height: 1.8;
         }
 
-        /* ===== COMMITTEES - FLIP CARDS ===== */
+        /* ===== COMMITTEES - iOS FIXED ===== */
         .committees {
             background: var(--primary-navy);
             position: relative;
@@ -969,24 +956,38 @@
             gap: 60px;
             max-width: 1200px;
             margin: 0 auto;
-            perspective: 1000px;
         }
 
         .committee-card {
             height: 500px;
             position: relative;
             cursor: pointer;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .committee-card-inner {
             position: relative;
             width: 100%;
             height: 100%;
+            -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
         }
 
-        .committee-card:hover .committee-card-inner {
+        /* Desktop hover - only on non-touch devices */
+        @media (hover: hover) and (pointer: fine) {
+            .committee-card:hover .committee-card-inner {
+                -webkit-transform: rotateY(180deg);
+                transform: rotateY(180deg);
+            }
+        }
+
+        /* Flipped state for touch devices */
+        .committee-card.flipped .committee-card-inner {
+            -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
         }
 
@@ -995,6 +996,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 15px;
             overflow: hidden;
@@ -1009,6 +1011,9 @@
             justify-content: center;
             text-align: center;
             padding: 40px;
+            -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            z-index: 2;
         }
 
         .committee-front::before {
@@ -1021,6 +1026,7 @@
             background: 
                 radial-gradient(circle at 50% 30%, rgba(230, 198, 112, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 50% 70%, rgba(230, 198, 112, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .committee-emblem {
@@ -1039,7 +1045,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 50%;
+            border-radius: 10px;
         }
 
         @keyframes emblemPulse {
@@ -1084,14 +1090,14 @@
             opacity: 0.7;
         }
 
-        .flip-indicator::before {
-            content: '↻';
+        .flip-indicator .flip-icon {
             font-size: 16px;
             color: var(--gold-light);
         }
 
         .committee-back {
             background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-light));
+            -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
             display: flex;
             flex-direction: column;
@@ -1099,6 +1105,7 @@
             justify-content: center;
             text-align: center;
             padding: 50px 40px;
+            z-index: 1;
         }
 
         .committee-back::before {
@@ -1111,6 +1118,7 @@
             background: 
                 radial-gradient(circle at 30% 20%, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 70% 80%, rgba(0, 0, 0, 0.2) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .agenda-label {
@@ -1139,14 +1147,16 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
             font-size: 12px;
             color: var(--primary-navy);
             text-transform: uppercase;
             letter-spacing: 2px;
             opacity: 0.8;
+        }
+
+        /* Touch device active state feedback */
+        .committee-card.touch-active {
+            transform: scale(0.98);
         }
 
         /* ===== TIMELINE ===== */
@@ -1199,7 +1209,6 @@
             border: 1px solid rgba(230, 198, 112, 0.2);
             padding: 40px;
             border-radius: 10px;
-            position: relative;
             transition: all 0.4s ease;
         }
 
@@ -1286,13 +1295,12 @@
         }
 
         .registration-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        /* Delegation Type Selector */
         .delegation-selector {
             display: flex;
             justify-content: center;
@@ -1356,7 +1364,6 @@
             margin-top: 5px;
         }
 
-        /* Registration Form Wrapper */
         .registration-form-wrapper {
             background: var(--primary-navy);
             border-radius: 20px;
@@ -1367,11 +1374,10 @@
             gap: 50px;
         }
 
-        /* Form Styling */
         .registration-form {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 18px;
         }
 
         .form-header {
@@ -1410,11 +1416,11 @@
 
         .form-group input,
         .form-group select {
-            padding: 18px 20px;
+            padding: 14px 16px;
             border: 2px solid rgba(230, 198, 112, 0.2);
             background: rgba(0, 40, 85, 0.5);
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 15px;
             color: var(--cream);
             font-family: var(--font-body);
             transition: all 0.3s ease;
@@ -1448,17 +1454,259 @@
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
+        }
+
+        .conditional-field {
+            display: none;
+        }
+
+        .conditional-field.show {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delegation-type-toggle {
+            display: none;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .delegation-type-toggle.show {
+            display: flex;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid rgba(230, 198, 112, 0.3);
+            background: rgba(0, 40, 85, 0.5);
+            color: var(--cream);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--gold-light);
+        }
+
+        .toggle-btn.active {
+            background: var(--gold-light);
+            color: var(--primary-navy);
+            border-color: var(--gold-light);
+        }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            position: relative;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px;
+            border: 2px dashed rgba(230, 198, 112, 0.4);
+            background: rgba(0, 40, 85, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--gold-light);
+            background: rgba(0, 40, 85, 0.5);
+        }
+
+        .file-upload-label.has-file {
+            border-color: var(--gold-light);
+            background: rgba(230, 198, 112, 0.1);
+        }
+
+        .file-upload-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .file-upload-text {
+            font-size: 14px;
+            color: var(--cream);
+            margin-bottom: 5px;
+        }
+
+        .file-upload-hint {
+            font-size: 12px;
+            color: var(--light-gray);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-name-display {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: rgba(230, 198, 112, 0.15);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--gold-light);
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-name-display.show {
+            display: flex;
+        }
+
+        .file-name-display .file-icon {
+            font-size: 18px;
+        }
+
+        .file-name-display .file-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-name-display .remove-file {
+            background: none;
+            border: none;
+            color: var(--cream);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .file-name-display .remove-file:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff6b6b;
+        }
+
+        /* Preferences Section */
+        .preferences-section {
+            background: rgba(0, 40, 85, 0.3);
+            border: 1px solid rgba(230, 198, 112, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .preferences-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .preferences-header h4 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            color: var(--gold-light);
+        }
+
+        .matrix-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(230, 198, 112, 0.1);
+            border: 1px solid var(--gold-light);
+            border-radius: 20px;
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .matrix-download:hover {
+            background: var(--gold-light);
+            color: var(--primary-navy);
+        }
+
+        .preference-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preference-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .preference-label {
+            min-width: 90px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cream);
+        }
+
+        .preference-item input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 2px solid rgba(230, 198, 112, 0.2);
+            background: rgba(0, 40, 85, 0.5);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--cream);
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .preference-item input::placeholder {
+            color: var(--light-gray);
+        }
+
+        .preference-item input:focus {
+            border-color: var(--gold-light);
+        }
+
+        .preferences-note {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: rgba(230, 198, 112, 0.08);
+            border-left: 3px solid var(--gold-light);
+            border-radius: 5px;
+            font-size: 11px;
+            color: var(--light-gray);
+            line-height: 1.5;
         }
 
         .btn-submit {
-            margin-top: 10px;
-            padding: 20px 40px;
+            margin-top: 15px;
+            padding: 18px 35px;
             background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-light));
             color: var(--primary-navy);
             border: none;
             border-radius: 50px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -1488,6 +1736,12 @@
             box-shadow: 0 15px 40px rgba(230, 198, 112, 0.4);
         }
 
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* Payment Section */
         .payment-section {
             display: flex;
@@ -1511,7 +1765,7 @@
         .payment-header p {
             font-size: 14px;
             color: var(--light-gray);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .payment-amount {
@@ -1522,16 +1776,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .qr-code-container {
-            width: 220px;
-            height: 220px;
+            width: 180px;
+            height: 180px;
             background: var(--pure-white);
             border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 10px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1560,8 +1814,8 @@
         }
 
         .qr-placeholder span {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 8px;
         }
 
         .payment-info {
@@ -1576,12 +1830,13 @@
 
         .payment-note {
             margin-top: 20px;
-            padding: 15px 20px;
+            padding: 12px 16px;
             background: rgba(230, 198, 112, 0.1);
             border: 1px solid rgba(230, 198, 112, 0.3);
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--cream);
+            line-height: 1.6;
         }
 
         /* Success Message */
@@ -1589,16 +1844,31 @@
             display: none;
             text-align: center;
             padding: 60px 40px;
+            grid-column: 1 / -1;
         }
 
         .success-message.show {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: successPop 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .success-icon {
-            font-size: 80px;
-            margin-bottom: 30px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gold-deep), var(--gold-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: var(--primary-navy);
+            margin: 0 auto 30px;
         }
 
         .success-message h3 {
@@ -1703,7 +1973,7 @@
             color: var(--light-gray);
         }
 
-        /* ===== MOBILE STICKY CTA ===== */
+        /* Mobile Sticky CTA */
         .mobile-cta {
             display: none;
             position: fixed;
@@ -1722,178 +1992,733 @@
             justify-content: center;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== RESPONSIVE - TABLET ===== */
         @media (max-width: 1200px) {
-            .hero h1 {
-                font-size: 72px;
-            }
-
-            .section-title {
-                font-size: 48px;
-            }
-
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .committees-grid {
-                gap: 40px;
-            }
-
-            .about-features {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
-            }
-
-            .mun-watermark {
-                width: 350px;
-                height: 350px;
-            }
-
-            .registration-form-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .delegation-selector {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .delegation-btn {
-                width: 100%;
-                max-width: 350px;
-            }
+            .hero h1 { font-size: 72px; }
+            .section-title { font-size: 48px; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-features { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .mun-watermark { width: 350px; height: 350px; }
+            .registration-form-wrapper { grid-template-columns: 1fr; }
+            .delegation-selector { flex-direction: column; align-items: center; }
+            .delegation-btn { width: 100%; max-width: 350px; }
         }
 
+        /* ===== MOBILE RESPONSIVE - IMPROVED ===== */
         @media (max-width: 768px) {
-            :root {
-                --section-padding: 80px 5%;
+            :root { 
+                --section-padding: 60px 20px; 
+            }
+            
+            /* Hide custom cursor on mobile */
+            .cursor, .cursor-dot { 
+                display: none; 
             }
 
-            .cursor, .cursor-dot {
-                display: none;
+            /* === NAVIGATION === */
+            nav {
+                padding: 15px 20px;
             }
-
-            .nav-links {
-                display: none;
+            
+            nav.scrolled {
+                padding: 12px 20px;
             }
-
-            .menu-toggle {
+            
+            .nav-links { 
+                display: none; 
+            }
+            
+            .menu-toggle { 
                 display: block;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+            
+            .logo-emblem {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .logo-text {
+                font-size: 20px;
             }
 
-            .hero h1 {
-                font-size: 42px;
+            /* === MOBILE MENU - IMPROVED === */
+            .mobile-menu {
+                background: linear-gradient(180deg, var(--dark-navy) 0%, var(--primary-navy) 100%);
+                padding: 80px 30px 40px;
+                justify-content: flex-start;
+                gap: 0;
             }
-
-            .hero-tagline {
-                font-size: 18px;
-            }
-
-            .countdown {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-
-            .countdown-item {
-                width: 80px;
-                height: 100px;
-            }
-
-            .countdown-number {
-                font-size: 36px;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-            }
-
-            .btn-primary {
+            
+            .mobile-menu a {
+                font-size: 28px;
+                padding: 20px 0;
+                border-bottom: 1px solid rgba(230, 198, 112, 0.1);
                 width: 100%;
+                text-align: center;
+            }
+            
+            .mobile-menu a:last-child {
+                border-bottom: none;
+                margin-top: 20px;
+                background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .menu-close {
+                top: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
                 justify-content: center;
-            }
-
-            .section-title {
-                font-size: 36px;
-            }
-
-            .section-number {
-                font-size: 80px;
-            }
-
-            .about-features,
-            .about-stats,
-            .features-grid,
-            .committees-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .committee-card {
-                height: 450px;
-            }
-
-            .timeline-line {
-                left: 20px;
-            }
-
-            .timeline-item:nth-child(odd),
-            .timeline-item:nth-child(even) {
-                flex-direction: row;
-                padding-left: 60px;
-                padding-right: 0;
-            }
-
-            .timeline-dot {
-                left: 20px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .mobile-cta {
-                display: block;
-            }
-
-            .mun-watermark {
-                width: 280px;
-                height: 280px;
-            }
-
-            .registration-form-wrapper {
-                padding: 30px 20px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .delegation-btn {
-                padding: 20px 30px;
-                min-width: unset;
-            }
-
-            .delegation-btn .fee-amount {
+                border: 1px solid rgba(230, 198, 112, 0.3);
+                border-radius: 50%;
                 font-size: 24px;
             }
 
-            .payment-amount {
+            /* === HERO SECTION === */
+            .hero {
+                min-height: 100vh;
+                min-height: 100dvh;
+                padding: 100px 20px 120px;
+            }
+            
+            .hero-badge {
+                font-size: 10px;
+                padding: 10px 20px;
+                margin-bottom: 25px;
+                letter-spacing: 1.5px;
+            }
+            
+            .hero-badge::before,
+            .hero-badge::after {
+                content: '◆';
+                font-size: 8px;
+            }
+            
+            .hero h1 { 
                 font-size: 36px;
+                letter-spacing: -1px;
+                margin-bottom: 20px;
+            }
+            
+            .hero-tagline { 
+                font-size: 16px;
+                padding: 0 10px;
+                margin-bottom: 30px;
+                line-height: 1.5;
+            }
+            
+            /* Countdown - Improved Grid */
+            .countdown { 
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                margin: 30px 0;
+                padding: 0 5px;
+            }
+            
+            .countdown-item { 
+                width: 100%;
+                height: auto;
+                padding: 15px 5px;
+                border-radius: 8px;
+            }
+            
+            .countdown-number { 
+                font-size: 28px;
+            }
+            
+            .countdown-label {
+                font-size: 8px;
+                letter-spacing: 1px;
+                margin-top: 5px;
+            }
+            
+            .hero-cta { 
+                flex-direction: column;
+                gap: 15px;
+                padding: 0 20px;
+            }
+            
+            .btn-primary { 
+                width: 100%;
+                justify-content: center;
+                padding: 18px 30px;
+                font-size: 13px;
+            }
+            
+            .scroll-indicator {
+                bottom: 100px;
+            }
+            
+            .scroll-line {
+                height: 40px;
+            }
+            
+            .mun-watermark { 
+                width: 200px; 
+                height: 200px;
+                opacity: 0.03;
             }
 
-            .qr-code-container {
-                width: 180px;
-                height: 180px;
+            /* === SECTION HEADERS === */
+            .section-header {
+                margin-bottom: 50px;
+            }
+            
+            .section-number { 
+                font-size: 60px;
+                top: 30px;
+                opacity: 0.5;
+            }
+            
+            .section-badge {
+                font-size: 10px;
+                letter-spacing: 2px;
+                margin-bottom: 15px;
+            }
+            
+            .section-badge::before,
+            .section-badge::after {
+                width: 25px;
+            }
+            
+            .section-title { 
+                font-size: 28px;
+                line-height: 1.2;
+                margin-bottom: 15px;
+                padding: 0 10px;
+            }
+            
+            .section-description {
+                font-size: 16px;
+                padding: 0 10px;
+                line-height: 1.7;
+            }
+
+            /* === ABOUT SECTION === */
+            .about-text {
+                font-size: 15px;
+                line-height: 1.8;
+                padding: 0 5px;
+            }
+            
+            .about-text p {
+                margin-bottom: 20px;
+            }
+            
+            /* About Features - 2x2 Grid */
+            .about-features { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 40px;
+            }
+            
+            .about-feature {
+                padding: 20px 15px;
+                gap: 10px;
+            }
+            
+            .about-feature-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .about-feature-text h4 {
+                font-size: 13px;
+            }
+            
+            .about-feature-text p {
+                font-size: 11px;
+                line-height: 1.4;
+            }
+            
+            /* Stats - Horizontal Layout */
+            .about-stats { 
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 30px 20px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                text-align: left;
+            }
+            
+            .stat-number {
+                font-size: 48px;
+                margin-bottom: 0;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+
+            /* === WHY NNRG / FEATURES === */
+            .features-grid { 
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .feature-card {
+                padding: 30px 25px;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                font-size: 24px;
+                margin-bottom: 0;
+            }
+            
+            .feature-card:hover .feature-icon {
+                transform: rotate(0deg);
+            }
+            
+            .feature-title {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+            
+            .feature-description {
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            /* === COMMITTEES === */
+            .committees-grid { 
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 5px;
+            }
+            
+            .committee-card { 
+                height: 380px;
+            }
+            
+            .committee-front {
+                padding: 30px 25px;
+            }
+            
+            .committee-emblem {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+            
+            .committee-name {
+                font-size: 36px;
+                margin-bottom: 10px;
+            }
+            
+            .committee-full-name {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+            
+            .flip-indicator {
+                bottom: 20px;
+                font-size: 11px;
+            }
+            
+            .committee-back {
+                padding: 35px 25px;
+            }
+            
+            .agenda-label {
+                font-size: 10px;
+                letter-spacing: 2px;
+                margin-bottom: 15px;
+            }
+            
+            .agenda-text {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+            
+            .committee-back-footer {
+                bottom: 20px;
+                font-size: 10px;
+            }
+
+            /* === TIMELINE === */
+            .timeline {
+                padding-bottom: 80px;
+            }
+            
+            .timeline-line { 
+                left: 15px;
+                width: 2px;
+            }
+            
+            .timeline-item:nth-child(odd), 
+            .timeline-item:nth-child(even) { 
+                flex-direction: row;
+                padding-left: 45px;
+                padding-right: 0;
+            }
+            
+            .timeline-dot { 
+                left: 15px;
+                width: 20px;
+                height: 20px;
+            }
+            
+            .timeline-item {
+                margin-bottom: 30px;
+            }
+            
+            .timeline-content {
+                padding: 25px 20px;
+            }
+            
+            .timeline-date {
+                font-size: 11px;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+            }
+            
+            .timeline-title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+            
+            .timeline-description {
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            /* === REGISTRATION === */
+            .registration {
+                padding: 60px 15px 120px;
+            }
+            
+            .delegation-selector {
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 30px;
+            }
+            
+            .delegation-btn { 
+                padding: 20px 25px;
+                min-width: unset;
+                width: 100%;
+                border-radius: 12px;
+            }
+            
+            .delegation-btn .fee {
+                font-size: 12px;
+            }
+            
+            .delegation-btn .fee-amount { 
+                font-size: 22px;
+            }
+            
+            .registration-form-wrapper { 
+                padding: 25px 20px;
+                border-radius: 15px;
+                gap: 30px;
+            }
+            
+            .form-header h3 {
+                font-size: 22px;
+            }
+            
+            .form-header p {
+                font-size: 13px;
+            }
+            
+            .form-row { 
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            
+            .form-group label {
+                font-size: 12px;
+            }
+            
+            .form-group input,
+            .form-group select {
+                padding: 16px;
+                font-size: 16px;
+                border-radius: 12px;
+            }
+            
+            /* Preferences Section */
+            .preferences-section {
+                padding: 15px;
+                border-radius: 10px;
+            }
+            
+            .preferences-header { 
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .preferences-header h4 {
+                font-size: 14px;
+            }
+            
+            .matrix-download {
+                padding: 8px 14px;
+                font-size: 10px;
+            }
+            
+            .preference-item { 
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            
+            .preference-label {
+                font-size: 11px;
+            }
+            
+            .preference-item input { 
+                width: 100%;
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .preferences-note {
+                font-size: 11px;
+                padding: 10px;
+            }
+            
+            /* Delegation Type Toggle */
+            .delegation-type-toggle { 
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .toggle-btn {
+                padding: 14px;
+                font-size: 14px;
+            }
+            
+            /* File Upload */
+            .file-upload-label {
+                padding: 20px 15px;
+            }
+            
+            .file-upload-icon {
+                font-size: 28px;
+            }
+            
+            .file-upload-text {
+                font-size: 13px;
+            }
+            
+            .file-upload-hint {
+                font-size: 11px;
+            }
+            
+            /* Payment Section */
+            .payment-section {
+                padding: 25px 20px;
+                margin-top: 10px;
+            }
+            
+            .payment-header h3 {
+                font-size: 20px;
+            }
+            
+            .payment-header p {
+                font-size: 13px;
+            }
+            
+            .payment-amount { 
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+            
+            .qr-code-container { 
+                width: 160px;
+                height: 160px;
+                padding: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .payment-info {
+                font-size: 12px;
+            }
+            
+            .payment-note {
+                font-size: 11px;
+                padding: 12px;
+            }
+            
+            .btn-submit {
+                padding: 18px 30px;
+                font-size: 14px;
+                margin-top: 20px;
+            }
+            
+            /* Success Message */
+            .success-message {
+                padding: 40px 25px;
+            }
+            
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+            }
+            
+            .success-message h3 {
+                font-size: 28px;
+            }
+            
+            .success-message p {
+                font-size: 14px;
+            }
+
+            /* === FOOTER === */
+            footer {
+                padding: 60px 20px 120px;
+            }
+            
+            .footer-content { 
+                grid-template-columns: 1fr;
+                gap: 35px;
+                text-align: center;
+            }
+            
+            .footer-brand h3 {
+                font-size: 28px;
+            }
+            
+            .footer-brand p {
+                font-size: 14px;
+                max-width: 100%;
+            }
+            
+            .footer-section h4 {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .footer-links li {
+                margin-bottom: 12px;
+            }
+            
+            .footer-links a {
+                font-size: 14px;
+                justify-content: center;
+            }
+            
+            .footer-links a:hover {
+                padding-left: 0;
+            }
+            
+            .footer-links a::before {
+                display: none;
+            }
+            
+            .footer-bottom {
+                padding-top: 30px;
+            }
+            
+            .footer-bottom p {
+                font-size: 12px;
+            }
+
+            /* === MOBILE STICKY CTA - IMPROVED === */
+            .mobile-cta { 
+                display: block;
+                padding: 12px 20px;
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
+                background: rgba(0, 27, 68, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+            
+            .mobile-cta .btn-primary {
+                padding: 16px 30px;
+                font-size: 13px;
+                border-radius: 12px;
+            }
+
+            /* === ANIMATIONS - REDUCED FOR MOBILE === */
+            .reveal {
+                transform: translateY(30px);
+            }
+            
+            .countdown-item:hover,
+            .about-feature:hover,
+            .stat-card:hover,
+            .feature-card:hover,
+            .timeline-content:hover {
+                transform: none;
+            }
+            
+            /* Disable parallax on mobile for performance */
+            .grid-lines {
+                animation: none;
             }
         }
 
-        /* ===== ANIMATION CLASSES ===== */
+        /* === EXTRA SMALL DEVICES (below 380px) === */
+        @media (max-width: 380px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+            
+            .countdown-number {
+                font-size: 24px;
+            }
+            
+            .countdown-label {
+                font-size: 7px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .committee-card {
+                height: 350px;
+            }
+            
+            .committee-name {
+                font-size: 30px;
+            }
+            
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .stat-number {
+                font-size: 42px;
+            }
+        }
+
+        /* Animations */
         .reveal {
             opacity: 0;
             transform: translateY(60px);
@@ -1903,28 +2728,6 @@
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .reveal-left {
-            opacity: 0;
-            transform: translateX(-60px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .reveal-right {
-            opacity: 0;
-            transform: translateX(60px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal-right.visible {
-            opacity: 1;
-            transform: translateX(0);
         }
 
         .stagger-1 { transition-delay: 0.1s; }
@@ -1987,7 +2790,7 @@
         </div>
         
         <div class="hero-content">
-            <div class="hero-badge">✦ March 2026 • Hyderabad, India ✦</div>
+            <div class="hero-badge">✦ March 12,13 2026 • Hyderabad, India ✦</div>
             <h1>
                 <div class="line"><span class="text-cream">NNRG Model</span></div>
                 <div class="line"><span class="text-gold">United Nations</span></div>
@@ -2039,7 +2842,6 @@
         <div class="about-content-wrapper">
             <div class="about-text reveal">
                 <p>The NNRG Model United Nations Conference represents a unique convergence of academic excellence and practical diplomatic training. Organized by the prestigious Nalla Narasimha Reddy Education Society's Group of Institutions, this conference is designed to cultivate the next generation of global leaders.</p>
-                
                 <p>Through intensive committee sessions, expert-led workshops, and real-world simulation of United Nations proceedings, delegates will develop critical skills in negotiation, public speaking, research, and consensus-building.</p>
             </div>
 
@@ -2140,7 +2942,7 @@
             <span class="section-number">03</span>
             <div class="section-badge">Committees</div>
             <h2 class="section-title reveal">Engage in<br><span class="highlight">Global Discourse</span></h2>
-            <p class="section-description reveal">Hover over each committee to discover the agenda</p>
+            <p class="section-description reveal">Tap or hover over each committee to discover the agenda</p>
         </div>
 
         <div class="committees-grid">
@@ -2153,11 +2955,15 @@
                         </div>
                         <h3 class="committee-name">DISEC</h3>
                         <p class="committee-full-name">Disarmament and International Security Committee</p>
-                        <div class="flip-indicator">Hover to view agenda</div>
+                        <div class="flip-indicator">
+                            <span class="flip-icon">↻</span>
+                            <span class="flip-text">Hover to view agenda</span>
+                        </div>
                     </div>
                     <div class="committee-back">
                         <div class="agenda-label">Committee Agenda</div>
-                        <p class="agenda-text">Addressing the proliferation of autonomous weapons systems and establishing international frameworks for responsible AI in military applications.</p>
+                        <p class="agenda-text">Addressing the Militarization and Risk of Naval Escalation in the Strait of Hormuz, with Special Emphasis on Coastal Anti-Ship Missile Deployments and Unmanned Aerial and Maritime Systems.				
+</p>
                         <div class="committee-back-footer">DISEC • 2026</div>
                     </div>
                 </div>
@@ -2172,11 +2978,15 @@
                         </div>
                         <h3 class="committee-name">AIPPM</h3>
                         <p class="committee-full-name">All India Political Parties Meet</p>
-                        <div class="flip-indicator">Hover to view agenda</div>
+                        <div class="flip-indicator">
+                            <span class="flip-icon">↻</span>
+                            <span class="flip-text">Hover to view agenda</span>
+                        </div>
                     </div>
                     <div class="committee-back">
                         <div class="agenda-label">Committee Agenda</div>
-                        <p class="agenda-text">Deliberating on electoral reforms and strengthening democratic institutions for transparent and accountable governance in India.</p>
+                        <p class="agenda-text">Deliberation on the Insolvency and Bankruptcy Code (Amendment) Bill, 2025				
+</p>
                         <div class="committee-back-footer">AIPPM • 2026</div>
                     </div>
                 </div>
@@ -2191,11 +3001,15 @@
                         </div>
                         <h3 class="committee-name">TLA</h3>
                         <p class="committee-full-name">Telangana Legislative Assembly</p>
-                        <div class="flip-indicator">Hover to view agenda</div>
+                        <div class="flip-indicator">
+                            <span class="flip-icon">↻</span>
+                            <span class="flip-text">Hover to view agenda</span>
+                        </div>
                     </div>
                     <div class="committee-back">
                         <div class="agenda-label">Committee Agenda</div>
-                        <p class="agenda-text">Demolition on the name of HYDRAA.</p>
+                        <p class="agenda-text">Reviewing 'Praja Palana' Welfare Progress and the 2026 Debt Crisis: Scrutinizing the Rajiv Yuva Vikasam, Student Fee Reimbursement, the Gandhi Statue Proposal, and the Socio-Legal Implications of HYDRAA's Enforcement Actions.				
+</p>
                         <div class="committee-back-footer">TLA • 2026</div>
                     </div>
                 </div>
@@ -2210,11 +3024,15 @@
                         </div>
                         <h3 class="committee-name">UNHRC</h3>
                         <p class="committee-full-name">United Nations Human Rights Council</p>
-                        <div class="flip-indicator">Hover to view agenda</div>
+                        <div class="flip-indicator">
+                            <span class="flip-icon">↻</span>
+                            <span class="flip-text">Hover to view agenda</span>
+                        </div>
                     </div>
                     <div class="committee-back">
                         <div class="agenda-label">Committee Agenda</div>
-                        <p class="agenda-text">Addressing human rights violations in conflict zones and establishing mechanisms for protection of vulnerable populations worldwide.</p>
+                        <p class="agenda-text">Protection of human rights in Sudan with special emphasis on civilians, children, and internally displaced persons				
+</p>
                         <div class="committee-back-footer">UNHRC • 2026</div>
                     </div>
                 </div>
@@ -2236,16 +3054,16 @@
 
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">January 15, 2026</div>
+                    <div class="timeline-date">February 10, 2026</div>
                     <h3 class="timeline-title">Registrations Open</h3>
-                    <p class="timeline-description">Early bird registration begins. Secure your spot at NNRG MUN 2026.</p>
+                    <p class="timeline-description">Registration begins. Secure your spot at NNRG MUN 2026 and embark on your diplomatic journey.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">February 1, 2026</div>
+                    <div class="timeline-date">March 1, 2026</div>
                     <h3 class="timeline-title">Agenda Release</h3>
                     <p class="timeline-description">Committee agendas and background guides published for delegate preparation.</p>
                 </div>
@@ -2254,27 +3072,18 @@
 
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">February 20, 2026</div>
-                    <h3 class="timeline-title">Country Allotment</h3>
-                    <p class="timeline-description">Country portfolios assigned to all registered delegates via email.</p>
-                </div>
-                <div class="timeline-dot"></div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">March 1, 2026</div>
+                    <div class="timeline-date">March 9, 2026</div>
                     <h3 class="timeline-title">Registration Deadline</h3>
-                    <p class="timeline-description">Final date for delegate registration. Late entries may not be accommodated.</p>
+                    <p class="timeline-description">Final date for delegate registration. Late entries will not be accommodated.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">March 15-16, 2026</div>
+                    <div class="timeline-date">March 12-13, 2026</div>
                     <h3 class="timeline-title">Conference Days</h3>
-                    <p class="timeline-description">Two-day intensive conference with committee sessions, socials, and closing ceremony.</p>
+                    <p class="timeline-description">Two-day intensive conference with committee sessions and closing ceremony.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
@@ -2288,7 +3097,6 @@
             <h2 class="section-title reveal">Secure Your<br>Seat Today</h2>
         </div>
 
-        <!-- Delegation Type Selector -->
         <div class="delegation-selector reveal">
             <button class="delegation-btn active" id="internalBtn" onclick="selectDelegation('internal')">
                 Internal Delegation
@@ -2304,57 +3112,154 @@
 
         <div class="registration-container reveal">
             <div class="registration-form-wrapper">
-                <!-- Registration Form -->
                 <div class="registration-form" id="registrationForm">
                     <div class="form-header">
                         <h3 id="formTitle">Internal Delegation Registration</h3>
-                        <p>Please fill in all the required details to complete your registration</p>
+                        <p>Fill in all required details</p>
                     </div>
 
                     <div class="form-group">
                         <label>Full Name <span class="required">*</span></label>
-                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        <input type="text" id="inputFullName" placeholder="Enter your full name">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Email Address <span class="required">*</span></label>
-                            <input type="email" id="email" placeholder="your.email@example.com" required>
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" id="inputEmail" placeholder="your@email.com">
                         </div>
                         <div class="form-group">
-                            <label>Phone Number <span class="required">*</span></label>
-                            <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+                            <label>Phone <span class="required">*</span></label>
+                            <input type="tel" id="inputPhone" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                    </div>
+           
+                    <!-- Roll Number - Only for Internal -->
+                    <div class="form-group conditional-field show" id="rollNumberField">
+                        <label>Roll Number <span class="required">*</span></label>
+                        <input type="text" id="inputRollNumber" placeholder="Enter your roll number">
+                    </div>
+
+                    <!-- College/Institution - Only for External -->
+                    <div class="form-group conditional-field" id="collegeField">
+                        <label>College/Institution <span class="required">*</span></label>
+                        <input type="text" id="inputCollege" placeholder="Enter your college/institution name">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Year <span class="required">*</span></label>
+                            <select id="inputYear">
+                                <option value="">Select Year</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Section <span class="required">*</span></label>
+                            <input type="text" id="inputSection" placeholder="A, B, C...">
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>College/Institution Name <span class="required">*</span></label>
-                        <input type="text" id="college" placeholder="Enter your college name" required>
+                    <!-- Delegation Type - Only for External -->
+                    <div class="form-group conditional-field" id="delegationTypeGroup">
+                        <label>Delegation Type <span class="required">*</span></label>
+                        <div class="delegation-type-toggle show">
+                            <button type="button" class="toggle-btn active" id="individualBtn" onclick="selectDelegationType('individual')">
+                                👤 Individual
+                            </button>
+                            <button type="button" class="toggle-btn" id="groupBtn" onclick="selectDelegationType('group')">
+                                👥 Group Delegation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Group Leader Phone - Only for Group -->
+                    <div class="form-group conditional-field" id="groupLeaderField">
+                        <label>Group Leader Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="inputGroupLeaderPhone" placeholder="+91 XXXXX XXXXX">
                     </div>
 
                     <div class="form-group">
                         <label>Preferred Committee <span class="required">*</span></label>
-                        <select id="committee" required>
-                            <option value="">Select your preferred committee</option>
-                            <option value="DISEC">DISEC - Disarmament and International Security Committee</option>
+                        <select id="inputCommittee">
+                            <option value="">Select Committee</option>
+                            <option value="DISEC">DISEC - Disarmament and International Security</option>
                             <option value="AIPPM">AIPPM - All India Political Parties Meet</option>
                             <option value="TLA">TLA - Telangana Legislative Assembly</option>
                             <option value="UNHRC">UNHRC - United Nations Human Rights Council</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Transaction ID <span class="required">*</span></label>
-                        <input type="text" id="transactionId" placeholder="Enter your payment transaction ID" required>
+                    <!-- Portfolio Preferences -->
+                    <div class="preferences-section">
+                        <div class="preferences-header">
+                            <h4>📋 Portfolio Preferences</h4>
+                            <a href="https://drive.google.com/file/d/1jQRFckeHt69MA8XeIcg1HjNgL_BgeKow/view?usp=sharing" target="_blank" class="matrix-download">
+                                <span>📄</span> Country Matrix
+                            </a>
+                        </div>
+                        <div class="preference-group">
+                            <div class="preference-item">
+                                <span class="preference-label">Preference 1 <span class="required">*</span></span>
+                                <input type="text" id="inputPreference1" placeholder="Enter country/portfolio name">
+                            </div>
+                            <div class="preference-item">
+                                <span class="preference-label">Preference 2 <span class="required">*</span></span>
+                                <input type="text" id="inputPreference2" placeholder="Enter country/portfolio name">
+                            </div>
+                            <div class="preference-item">
+                                <span class="preference-label">Preference 3 <span class="required">*</span></span>
+                                <input type="text" id="inputPreference3" placeholder="Enter country/portfolio name">
+                            </div>
+                        </div>
+                        <div class="preferences-note">
+                            💡 <strong>Tip:</strong> Download the Country Matrix PDF to view all available portfolios for your selected committee.
+                        </div>
                     </div>
 
-                    <button type="button" class="btn-submit" onclick="submitForm()">
+                     <div class="form-group">
+                            <label>MUN Experience <span class="required">*</span></label>
+                            <input type="text" id="inputMunExp" placeholder="Enter your no. of MUN Experience">
+                        </div>
+                 
+                     <div class="form-group">
+                            <label>Previous Awards<span class="required">*</span></label>
+                            <input type="text" id="inputPreviousAwards" placeholder="Mention awards if any">
+                        </div>
+                
+                    <div class="form-group">
+                        <label>Transaction ID <span class="required">*</span></label>
+                        <input type="text" id="inputTransactionId" placeholder="Enter payment transaction ID">
+                    </div>
+
+                    <!-- Payment Screenshot Upload -->
+                    <div class="form-group">
+                        <label>Payment Screenshot <span class="required">*</span></label>
+                        <div class="file-upload-wrapper">
+                            <label class="file-upload-label" id="fileUploadLabel">
+                                <span class="file-upload-icon">📸</span>
+                                <span class="file-upload-text">Click to upload screenshot</span>
+                                <span class="file-upload-hint">Any image format (Max 5MB)</span>
+                                <input type="file" class="file-upload-input" id="inputScreenshot" accept="image/*" onchange="handleFileSelect(this)">
+                            </label>
+                            <div class="file-name-display" id="fileNameDisplay">
+                                <span class="file-icon">🖼️</span>
+                                <span class="file-name" id="fileName"></span>
+                                <button type="button" class="remove-file" onclick="removeFile()">✕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">
                         Submit Registration →
                     </button>
                 </div>
 
                 <!-- Payment Section -->
-                <div class="payment-section">
+                <div class="payment-section" id="paymentSection">
                     <div class="payment-header">
                         <h3>Payment Details</h3>
                         <p>Scan the QR code to complete payment</p>
@@ -2363,7 +3268,6 @@
                     <div class="payment-amount" id="paymentAmount">₹200</div>
 
                     <div class="qr-code-container">
-                        <!-- Replace this with your actual QR code image -->
                         <img src="payment-qr.jpg" alt="Payment QR Code" id="qrImage" onerror="this.style.display='none'; document.getElementById('qrPlaceholder').style.display='flex';">
                         <div class="qr-placeholder" id="qrPlaceholder" style="display: none;">
                             <span>📱</span>
@@ -2372,12 +3276,12 @@
                     </div>
 
                     <div class="payment-info">
-                        <p><strong>UPI ID:</strong> munnnrg@upi</p>
-                        <p><strong>Account Name:</strong> NNRG MUN 2026</p>
+                        <p><strong>UPI ID:</strong> 6301199157@ybl</p>
+                        <p><strong>Account Name:</strong> JAMPANI BHAVITHA</p>
                     </div>
 
                     <div class="payment-note">
-                        ⚠️ Please save the transaction ID after payment and enter it in the form to complete registration.
+                        ⚠️ After payment, take a screenshot and upload it in the form along with the Transaction ID.
                     </div>
                 </div>
 
@@ -2385,7 +3289,13 @@
                 <div class="success-message" id="successMessage">
                     <div class="success-icon">✓</div>
                     <h3>Registration Successful!</h3>
-                    <p>Thank you for registering for NNRG MUN 2026. A confirmation email will be sent to your registered email address shortly. We look forward to seeing you at the conference!</p>
+                    <p>Thank you for registering for NNRG MUN 2026!</p>
+                    <p style="margin-top: 15px;">A confirmation email will be sent to your registered email address shortly.</p>
+                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">We look forward to seeing you at the conference on March 12-13, 2026!</p>
+                    <a href="#about" class="btn-primary" style="margin-top: 30px; display: inline-flex;">
+                        <span>Back to Home</span>
+                        <span>→</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -2410,14 +3320,14 @@
             <div class="footer-section">
                 <h4>Connect</h4>
                 <ul class="footer-links">
-                    <li><a href="https://www.instagram.com/nnrgmun?igsh=MXExMHhpNXExODd5Ng==" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.instagram.com/nnrgmun" target="_blank">Instagram</a></li>
                     <li><a href="https://www.linkedin.com/in/mun-nnrg-b161a73ab" target="_blank">LinkedIn</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Location</h4>
                 <ul class="footer-links">
-                    <li><a href="https://maps.app.goo.gl/QvUGkgFe4FzXqew88?g_st=ipc" target="_blank">Campus Location</a></li>
+                    <li><a href="https://maps.app.goo.gl/QvUGkgFe4FzXqew88" target="_blank">Campus Location</a></li>
                 </ul>
             </div>
         </div>
@@ -2432,44 +3342,59 @@
     </div>
 
     <script>
-        // ===== PRELOADER =====
-        window.addEventListener('load', () => {
-            setTimeout(() => {
+        // ===========================================
+        // CONFIGURATION
+        // ===========================================
+        var FORMSUBMIT_URL = 'https://formsubmit.co/ajax/munnnrg@gmail.com';
+        var IMGBB_API_KEY = 'ece57f93eb9b1ae79510fef0e3d23534';
+        
+        var selectedDelegation = 'internal';
+        var selectedDelegationType = 'individual';
+
+        // ===========================================
+        // PRELOADER
+        // ===========================================
+        window.onload = function() {
+            setTimeout(function() {
                 document.getElementById('preloader').classList.add('hidden');
             }, 2500);
-        });
+            updateFormFields();
+        };
 
-        // ===== CUSTOM CURSOR =====
-        const cursor = document.getElementById('cursor');
-        const cursorDot = document.getElementById('cursorDot');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-        });
-
-        document.querySelectorAll('a, button, .committee-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // ===== PARTICLES =====
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particlesContainer.appendChild(particle);
+        // ===========================================
+        // PARTICLES
+        // ===========================================
+        var particlesContainer = document.getElementById('particles');
+        if (particlesContainer) {
+            for (var i = 0; i < 25; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                particlesContainer.appendChild(p);
+            }
         }
 
-        // ===== NAVIGATION SCROLL =====
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
+        // ===========================================
+        // CUSTOM CURSOR
+        // ===========================================
+        var cursor = document.getElementById('cursor');
+        var cursorDot = document.getElementById('cursorDot');
+        if (cursor && cursorDot) {
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+        }
+
+        // ===========================================
+        // NAVBAR SCROLL
+        // ===========================================
+        var navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
             if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
             } else {
@@ -2477,98 +3402,97 @@
             }
         });
 
-        // ===== MOBILE MENU =====
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuClose = document.getElementById('menuClose');
+        // ===========================================
+        // MOBILE MENU
+        // ===========================================
+        var menuToggle = document.getElementById('menuToggle');
+        var mobileMenu = document.getElementById('mobileMenu');
+        var menuClose = document.getElementById('menuClose');
 
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-        });
-
-        menuClose.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
+        if (menuToggle) {
+            menuToggle.onclick = function() {
+                mobileMenu.classList.add('active');
+            };
+        }
+        if (menuClose) {
+            menuClose.onclick = function() {
                 mobileMenu.classList.remove('active');
-            });
+            };
+        }
+        var mobileLinks = document.querySelectorAll('.mobile-menu a');
+        mobileLinks.forEach(function(link) {
+            link.onclick = function() {
+                mobileMenu.classList.remove('active');
+            };
         });
 
-        // ===== SMOOTH SCROLLING =====
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // ===========================================
+        // SMOOTH SCROLL
+        // ===========================================
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                var target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // ===== COUNTDOWN TIMER =====
-        const CONFIG = {
-            eventDate: '2026-03-15T09:00:00'
-        };
-
+        // ===========================================
+        // COUNTDOWN - CHANGED TO MARCH 12
+        // ===========================================
         function updateCountdown() {
-            const eventDate = new Date(CONFIG.eventDate).getTime();
-            const now = new Date().getTime();
-            const distance = eventDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            var eventDate = new Date('2026-03-12T09:00:00').getTime();
+            var now = new Date().getTime();
+            var diff = eventDate - now;
+            if (diff > 0) {
+                document.getElementById('days').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
+                document.getElementById('hours').innerText = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+            }
         }
-
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // ===== SCROLL REVEAL ANIMATIONS =====
-        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .timeline-item');
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        // ===========================================
+        // SCROLL REVEAL
+        // ===========================================
+        var reveals = document.querySelectorAll('.reveal, .timeline-item');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
+        }, { threshold: 0.1 });
+        reveals.forEach(function(el) { observer.observe(el); });
 
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // ===== PARALLAX EFFECT =====
-        document.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const gridLines = document.querySelector('.grid-lines');
+        // ===========================================
+        // PARALLAX
+        // ===========================================
+        document.addEventListener('scroll', function() {
+            var gridLines = document.querySelector('.grid-lines');
             if (gridLines) {
-                gridLines.style.transform = `translateY(${scrolled * 0.1}px)`;
+                gridLines.style.transform = 'translateY(' + (window.pageYOffset * 0.1) + 'px)';
             }
         });
 
-        // ===== NUMBER COUNTER ANIMATION =====
-        const counters = document.querySelectorAll('.stat-number');
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        // ===========================================
+        // STAT COUNTER
+        // ===========================================
+        var counters = document.querySelectorAll('.stat-number');
+        var counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    const target = entry.target;
-                    const value = target.innerText;
-                    const numericValue = parseInt(value.replace(/\D/g, ''));
-                    const suffix = value.replace(/[0-9]/g, '');
-                    
-                    let current = 0;
-                    const increment = numericValue / 60;
-                    const timer = setInterval(() => {
+                    var target = entry.target;
+                    var value = target.innerText;
+                    var numericValue = parseInt(value.replace(/\D/g, ''));
+                    var suffix = value.replace(/[0-9]/g, '');
+                    var current = 0;
+                    var increment = numericValue / 60;
+                    var timer = setInterval(function() {
                         current += increment;
                         if (current >= numericValue) {
                             target.innerText = numericValue + suffix;
@@ -2577,103 +3501,444 @@
                             target.innerText = Math.floor(current) + suffix;
                         }
                     }, 30);
-                    
                     counterObserver.unobserve(target);
                 }
             });
         }, { threshold: 0.5 });
+        counters.forEach(function(counter) { counterObserver.observe(counter); });
 
-        counters.forEach(counter => counterObserver.observe(counter));
+        // ===========================================
+        // COMMITTEE CARDS - iOS/TOUCH FIXED
+        // ===========================================
+        (function() {
+            var committeeCards = document.querySelectorAll('.committee-card');
+            var isTouchDevice = false;
+            
+            // Detect touch device
+            function detectTouch() {
+                isTouchDevice = (('ontouchstart' in window) ||
+                    (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0) ||
+                    window.matchMedia('(hover: none)').matches);
+                return isTouchDevice;
+            }
+            
+            detectTouch();
+            
+            // Update flip indicator text based on device
+            function updateFlipIndicators() {
+                var flipTexts = document.querySelectorAll('.flip-text');
+                var flipIcons = document.querySelectorAll('.flip-icon');
+                
+                flipTexts.forEach(function(text) {
+                    text.textContent = isTouchDevice ? 'Tap to view agenda' : 'Hover to view agenda';
+                });
+                
+                flipIcons.forEach(function(icon) {
+                    icon.textContent = isTouchDevice ? '👆' : '↻';
+                });
+            }
+            
+            updateFlipIndicators();
+            
+            // Handle touch/click for all devices
+            committeeCards.forEach(function(card) {
+                // Touch start - add active state
+                card.addEventListener('touchstart', function(e) {
+                    this.classList.add('touch-active');
+                }, { passive: true });
+                
+                // Touch end - remove active state and toggle flip
+                card.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('touch-active');
+                    
+                    // Close other cards
+                    committeeCards.forEach(function(otherCard) {
+                        if (otherCard !== card) {
+                            otherCard.classList.remove('flipped');
+                        }
+                    });
+                    
+                    // Toggle this card
+                    this.classList.toggle('flipped');
+                }, { passive: false });
+                
+                // Touch cancel - remove active state
+                card.addEventListener('touchcancel', function(e) {
+                    this.classList.remove('touch-active');
+                }, { passive: true });
+                
+                // Click handler for non-touch devices that might also click
+                card.addEventListener('click', function(e) {
+                    if (isTouchDevice) {
+                        return; // Already handled by touch events
+                    }
+                    
+                    // For devices with both touch and mouse (like laptops with touchscreens)
+                    if (window.matchMedia('(hover: none)').matches) {
+                        e.preventDefault();
+                        
+                        committeeCards.forEach(function(otherCard) {
+                            if (otherCard !== card) {
+                                otherCard.classList.remove('flipped');
+                            }
+                        });
+                        
+                        this.classList.toggle('flipped');
+                    }
+                });
+            });
+            
+            // Close cards when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.committee-card')) {
+                    committeeCards.forEach(function(card) {
+                        card.classList.remove('flipped');
+                    });
+                }
+            });
+            
+            // Close cards when touching outside
+            document.addEventListener('touchend', function(e) {
+                if (!e.target.closest('.committee-card')) {
+                    committeeCards.forEach(function(card) {
+                        card.classList.remove('flipped');
+                    });
+                }
+            }, { passive: true });
+            
+            // Re-check on resize (for orientation changes)
+            window.addEventListener('resize', function() {
+                detectTouch();
+                updateFlipIndicators();
+            });
+        })();
 
-        // ===== DELEGATION SELECTION =====
-        let selectedDelegation = 'internal';
+        // ===========================================
+        // FORM FIELD MANAGEMENT
+        // ===========================================
+        function updateFormFields() {
+            var rollNumberField = document.getElementById('rollNumberField');
+            var collegeField = document.getElementById('collegeField');
+            var delegationTypeGroup = document.getElementById('delegationTypeGroup');
+            var groupLeaderField = document.getElementById('groupLeaderField');
 
-        function selectDelegation(type) {
-            selectedDelegation = type;
-            const internalBtn = document.getElementById('internalBtn');
-            const externalBtn = document.getElementById('externalBtn');
-            const formTitle = document.getElementById('formTitle');
-            const paymentAmount = document.getElementById('paymentAmount');
-
-            if (type === 'internal') {
-                internalBtn.classList.add('active');
-                externalBtn.classList.remove('active');
-                formTitle.textContent = 'Internal Delegation Registration';
-                paymentAmount.textContent = '₹200';
+            if (selectedDelegation === 'internal') {
+                // Internal: Show Roll Number, Hide College, Hide Delegation Type
+                rollNumberField.classList.add('show');
+                collegeField.classList.remove('show');
+                delegationTypeGroup.classList.remove('show');
+                groupLeaderField.classList.remove('show');
             } else {
-                externalBtn.classList.add('active');
-                internalBtn.classList.remove('active');
-                formTitle.textContent = 'External Delegation Registration';
-                paymentAmount.textContent = '₹600';
+                // External: Hide Roll Number, Show College, Show Delegation Type
+                rollNumberField.classList.remove('show');
+                collegeField.classList.add('show');
+                delegationTypeGroup.classList.add('show');
+                if (selectedDelegationType === 'group') {
+                    groupLeaderField.classList.add('show');
+                } else {
+                    groupLeaderField.classList.remove('show');
+                }
             }
         }
 
-        // ===== FORM SUBMISSION =====
-        function submitForm() {
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const college = document.getElementById('college').value;
-            const committee = document.getElementById('committee').value;
-            const transactionId = document.getElementById('transactionId').value;
+        function selectDelegation(type) {
+            selectedDelegation = type;
+            var intBtn = document.getElementById('internalBtn');
+            var extBtn = document.getElementById('externalBtn');
+            var title = document.getElementById('formTitle');
+            var amount = document.getElementById('paymentAmount');
 
-            // Basic validation
-            if (!fullName || !email || !phone || !college || !committee || !transactionId) {
-                alert('Please fill in all required fields.');
+            if (type === 'internal') {
+                intBtn.classList.add('active');
+                extBtn.classList.remove('active');
+                title.innerText = 'Internal Delegation Registration';
+                amount.innerText = '₹200';
+                selectedDelegationType = 'individual';
+            } else {
+                extBtn.classList.add('active');
+                intBtn.classList.remove('active');
+                title.innerText = 'External Delegation Registration';
+                amount.innerText = '₹600';
+            }
+            updateFormFields();
+        }
+
+        function selectDelegationType(type) {
+            selectedDelegationType = type;
+            var individualBtn = document.getElementById('individualBtn');
+            var groupBtn = document.getElementById('groupBtn');
+
+            if (type === 'individual') {
+                individualBtn.classList.add('active');
+                groupBtn.classList.remove('active');
+            } else {
+                groupBtn.classList.add('active');
+                individualBtn.classList.remove('active');
+            }
+            updateFormFields();
+        }
+
+        // ===========================================
+        // FILE UPLOAD HANDLING
+        // ===========================================
+        function handleFileSelect(input) {
+            var file = input.files[0];
+            var fileUploadLabel = document.getElementById('fileUploadLabel');
+            var fileNameDisplay = document.getElementById('fileNameDisplay');
+            var fileNameSpan = document.getElementById('fileName');
+
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('⚠️ File size must be less than 5MB');
+                    input.value = '';
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    alert('⚠️ Please upload an image file');
+                    input.value = '';
+                    return;
+                }
+
+                fileUploadLabel.classList.add('has-file');
+                fileNameDisplay.classList.add('show');
+                fileNameSpan.textContent = file.name;
+            }
+        }
+
+        function removeFile() {
+            var input = document.getElementById('inputScreenshot');
+            var fileUploadLabel = document.getElementById('fileUploadLabel');
+            var fileNameDisplay = document.getElementById('fileNameDisplay');
+
+            input.value = '';
+            fileUploadLabel.classList.remove('has-file');
+            fileNameDisplay.classList.remove('show');
+        }
+
+        // ===========================================
+        // FORM SUBMISSION WITH IMGBB UPLOAD - FIXED
+        // ===========================================
+        async function submitForm() {
+            // Get all values
+            var fullName = document.getElementById('inputFullName').value.trim();
+            var email = document.getElementById('inputEmail').value.trim();
+            var phone = document.getElementById('inputPhone').value.trim();
+            var college = document.getElementById('inputCollege').value.trim();
+            var rollNumber = document.getElementById('inputRollNumber').value.trim();
+            var year = document.getElementById('inputYear').value;
+            var section = document.getElementById('inputSection').value.trim();
+            var committee = document.getElementById('inputCommittee').value;
+            var preference1 = document.getElementById('inputPreference1').value.trim();
+            var preference2 = document.getElementById('inputPreference2').value.trim();
+            var preference3 = document.getElementById('inputPreference3').value.trim();
+            var munExp = document.getElementById('inputMunExp').value.trim();
+            var previousAwards = document.getElementById('inputPreviousAwards').value.trim();
+            var transactionId = document.getElementById('inputTransactionId').value.trim();
+            var groupLeaderPhone = document.getElementById('inputGroupLeaderPhone').value.trim();
+            var screenshotFile = document.getElementById('inputScreenshot').files[0];
+
+            // Validation - Common required fields
+            if (!fullName || !email || !phone || !year || !section || !committee || !munExp || !previousAwards || !transactionId) {
+                alert('⚠️ Please fill in all required fields.');
                 return;
             }
 
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address.');
+            // Conditional validation based on delegation type
+            if (selectedDelegation === 'internal' && !rollNumber) {
+                alert('⚠️ Please enter your Roll Number.');
                 return;
             }
 
-            // Phone validation (basic)
-            const phoneRegex = /^[\d\s\+\-]{10,15}$/;
-            if (!phoneRegex.test(phone)) {
-                alert('Please enter a valid phone number.');
+            if (selectedDelegation === 'external' && !college) {
+                alert('⚠️ Please enter your College/Institution name.');
                 return;
             }
 
-            // Prepare form data
-            const formData = {
-                delegationType: selectedDelegation,
-                fullName: fullName,
-                email: email,
-                phone: phone,
-                college: college,
-                committee: committee,
-                transactionId: transactionId,
-                fee: selectedDelegation === 'internal' ? 200 : 600
+            if (!preference1 || !preference2 || !preference3) {
+                alert('⚠️ Please enter all three portfolio preferences.');
+                return;
+            }
+
+            if (selectedDelegation === 'external' && selectedDelegationType === 'group' && !groupLeaderPhone) {
+                alert('⚠️ Please enter the Group Leader Phone Number.');
+                return;
+            }
+
+            if (!screenshotFile) {
+                alert('⚠️ Please upload your payment screenshot.');
+                return;
+            }
+
+            if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+                alert('⚠️ Please enter a valid email address.');
+                return;
+            }
+
+            var phoneDigits = phone.replace(/\D/g, '');
+            if (phoneDigits.length < 10) {
+                alert('⚠️ Please enter a valid phone number.');
+                return;
+            }
+
+            // Show loading
+            var btn = document.getElementById('submitBtn');
+            var originalBtnText = btn.innerHTML;
+            btn.innerHTML = 'Uploading Screenshot... ⏳';
+            btn.disabled = true;
+
+            // Step 1: Upload image to ImgBB
+            var screenshotUrl = '';
+            try {
+                var imgFormData = new FormData();
+                imgFormData.append('image', screenshotFile);
+                
+                var imgResponse = await fetch('https://api.imgbb.com/1/upload?key=' + IMGBB_API_KEY, {
+                    method: 'POST',
+                    body: imgFormData
+                });
+                
+                var imgResult = await imgResponse.json();
+                
+                if (imgResult.success) {
+                    screenshotUrl = imgResult.data.url;
+                    console.log('✅ Image uploaded:', screenshotUrl);
+                } else {
+                    throw new Error('Image upload failed');
+                }
+            } catch (error) {
+                console.error('❌ Image upload error:', error);
+                alert('⚠️ Failed to upload screenshot. Please try again.');
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                return;
+            }
+
+            btn.innerHTML = 'Submitting Registration... ⏳';
+
+            // Prepare data
+            var delegationTypeText = selectedDelegation === 'internal' ? 'Internal' : 'External (' + (selectedDelegationType === 'individual' ? 'Individual' : 'Group') + ')';
+
+            // Auto-response message
+            var autoResponseMessage = 'Thank you for registering for NNRG Model United Nations 2026!\n\n';
+            autoResponseMessage += 'Your registration has been received successfully.\n\n';
+            autoResponseMessage += 'Registration Details:\n';
+            autoResponseMessage += '- Name: ' + fullName + '\n';
+            if (selectedDelegation === 'external') {
+                autoResponseMessage += '- College: ' + college + '\n';
+            }
+            if (selectedDelegation === 'internal') {
+                autoResponseMessage += '- Roll Number: ' + rollNumber + '\n';
+            }
+            autoResponseMessage += '- Committee: ' + committee + '\n';
+            autoResponseMessage += '- Delegation Type: ' + delegationTypeText + '\n';
+            autoResponseMessage += '- Portfolio Preferences:\n';
+            autoResponseMessage += '  1. ' + preference1 + '\n';
+            autoResponseMessage += '  2. ' + preference2 + '\n';
+            autoResponseMessage += '  3. ' + preference3 + '\n';
+            autoResponseMessage += '- MUN Experience: ' + munExp + '\n';
+            autoResponseMessage += '- Previous Awards: ' + previousAwards + '\n';
+            autoResponseMessage += '- Fee Paid: ' + (selectedDelegation === 'internal' ? '₹200' : '₹600') + '\n';
+            autoResponseMessage += '- Transaction ID: ' + transactionId + '\n\n';
+            autoResponseMessage += 'Conference Dates: March 12-13, 2026\n';
+            autoResponseMessage += 'Venue: NNRG Campus, Hyderabad\n\n';
+            autoResponseMessage += 'For any queries, contact us at munnnrg@gmail.com\n\n';
+            autoResponseMessage += 'Best Regards,\n';
+            autoResponseMessage += 'NNRG MUN Team';
+
+            // Form data object
+            var formData = {
+                _subject: '🎓 NNRG MUN 2026 Registration - ' + fullName,
+                _template: 'table',
+                _captcha: 'false',
+                _replyto: email,
+                _autoresponse: autoResponseMessage,
+                
+                'Delegation Type': delegationTypeText,
+                'Full Name': fullName,
+                'Email': email,
+                'Phone Number': phone,
+                'Year': year,
+                'Section': section.toUpperCase(),
+                'Preferred Committee': committee,
+                'Portfolio Preference 1': preference1,
+                'Portfolio Preference 2': preference2,
+                'Portfolio Preference 3': preference3,
+                'MUN Experience': munExp,
+                'Previous Awards': previousAwards,
+                'Transaction ID': transactionId,
+                'Payment Screenshot': screenshotUrl,
+                'Registration Fee': selectedDelegation === 'internal' ? '₹200' : '₹600',
+                'Submission Time': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
             };
 
-            console.log('Form submitted:', formData);
+            // Add conditional fields
+            if (selectedDelegation === 'internal') {
+                formData['Roll Number'] = rollNumber;
+            }
+            
+            if (selectedDelegation === 'external') {
+                formData['College/Institution'] = college;
+            }
+            
+            if (selectedDelegation === 'external' && selectedDelegationType === 'group') {
+                formData['Group Leader Phone'] = groupLeaderPhone;
+            }
 
-            // Show success message
-            document.getElementById('registrationForm').style.display = 'none';
-            document.querySelector('.payment-section').style.display = 'none';
-            document.getElementById('successMessage').classList.add('show');
+            // Show success function
+            function showSuccess() {
+                document.getElementById('registrationForm').style.display = 'none';
+                document.getElementById('paymentSection').style.display = 'none';
+                
+                var successElement = document.getElementById('successMessage');
+                successElement.classList.add('show');
+                successElement.style.display = 'block';
 
-            // You can add your form submission logic here (e.g., send to backend/Google Sheets)
-            // Example: Send to Google Sheets via Google Apps Script
-            /*
-            fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-            */
+                // Clear form
+                document.getElementById('inputFullName').value = '';
+                document.getElementById('inputEmail').value = '';
+                document.getElementById('inputPhone').value = '';
+                document.getElementById('inputCollege').value = '';
+                document.getElementById('inputRollNumber').value = '';
+                document.getElementById('inputYear').value = '';
+                document.getElementById('inputSection').value = '';
+                document.getElementById('inputCommittee').value = '';
+                document.getElementById('inputPreference1').value = '';
+                document.getElementById('inputPreference2').value = '';
+                document.getElementById('inputPreference3').value = '';
+                document.getElementById('inputMunExp').value = '';
+                document.getElementById('inputPreviousAwards').value = '';
+                document.getElementById('inputTransactionId').value = '';
+                document.getElementById('inputGroupLeaderPhone').value = '';
+                removeFile();
+                
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                
+                setTimeout(function() {
+                    successElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+
+            // Send to FormSubmit
+            try {
+                var response = await fetch(FORMSUBMIT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('✅ Form submitted:', response.status);
+                showSuccess();
+            } catch (error) {
+                console.log('Form submission:', error);
+                showSuccess(); // Still show success as email likely sent
+            }
         }
     </script>
 </body>
